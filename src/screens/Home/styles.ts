@@ -18,7 +18,7 @@ export const Header = styled.View`
   margin-bottom: 40px;
 `;
 
-export const WeatherList = styled.FlatList<FlatListProps<WeatherProps>>`
+export const CitiesList = styled.FlatList<FlatListProps<WeatherProps>>`
   min-height: 180px;
   max-height: 180px;
   margin-bottom: 24px;

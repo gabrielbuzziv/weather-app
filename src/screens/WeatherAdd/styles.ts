@@ -2,9 +2,11 @@ import styled from 'styled-components/native';
 import { FlatListProps } from 'react-native';
 
 import { theme } from '../../styles/theme';
+import { CityProps } from '../../components/City';
 
 export const Container = styled.View`
   min-height: 500px;
+  max-height: 500px;
 `;
 
 export const Input = styled.TextInput`
@@ -21,6 +23,6 @@ export const Input = styled.TextInput`
   margin-bottom: 24px;
 `;
 
-export const SearchList = styled.FlatList<FlatListProps<any>>`
+export const SearchList = styled.FlatList`
 
 `
