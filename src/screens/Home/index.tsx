@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+
 import { ButtonAdd } from '../../components/ButtonAdd';
 import { Profile } from '../../components/Profile';
-import { Weather } from '../../components/Weather';
+import { Weather, WeatherProps } from '../../components/Weather';
 import { Favorite } from '../../components/Favorite';
 
 import {
@@ -11,8 +13,14 @@ import {
   FavoritesTitle,
   FavoritesList,
 } from './styles';
+import { ModalView } from '../../components/ModalView';
+import { WeatherAdd } from '../WeatherAdd';
 
 export function Home() {
+  const navigation = useNavigation();
+
+  const [openWeatherAddModal, setOpenWeatherAddModal] = useState(false);
+
   const weathers = [
     {
       id: '1',
@@ -43,28 +51,43 @@ export function Home() {
     },
   ];
 
+  function handleWeatherDetail(weather: WeatherProps) {
+    navigation.navigate('WeatherDetail', { weather });
+  }
+
+  function handleOpenWeatherAddModal() {
+    setOpenWeatherAddModal(true);
+  }
+
+  function handleCloseWeatherAddModal() {
+    setOpenWeatherAddModal(false);
+  }
+
   return (
     <Container>
       <Header>
         <Profile />
-        <ButtonAdd
-          onPress={() => {
-            console.log('something');
-          }}
-        />
+        <ButtonAdd onPress={handleOpenWeatherAddModal} />
       </Header>
 
       <FavoritesList
         data={favorites}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Favorite data={item} />}
+        renderItem={({ item }) => (
+          <Favorite data={item} onPress={() => handleWeatherDetail(item)} />
+        )}
         contentContainerStyle={{ paddingBottom: 50 }}
         ListHeaderComponent={() => (
           <>
             <WeatherList
               data={weathers}
               keyExtractor={(item) => item.id}
-              renderItem={({ item }) => <Weather data={item} />}
+              renderItem={({ item }) => (
+                <Weather
+                  data={item}
+                  onPress={() => handleWeatherDetail(item)}
+                />
+              )}
               horizontal
               contentContainerStyle={{ paddingLeft: 24, paddingRight: 8 }}
               showsHorizontalScrollIndicator={false}
@@ -74,6 +97,13 @@ export function Home() {
           </>
         )}
       />
+
+      <ModalView
+        visible={openWeatherAddModal}
+        closeModal={handleCloseWeatherAddModal}
+      >
+        <WeatherAdd />
+      </ModalView>
     </Container>
   );
 }
