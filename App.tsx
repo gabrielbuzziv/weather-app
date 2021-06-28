@@ -8,19 +8,23 @@ import {
   Inter_700Bold,
 } from '@expo-google-fonts/inter';
 
-import { Home } from './src/screens/Home';
+import { Routes } from './src/routes';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
     Inter_500Medium,
     Inter_600SemiBold,
-    Inter_700Bold
-  })
+    Inter_700Bold,
+  });
 
   if (!fontsLoaded) {
-    return <AppLoading />
+    return <AppLoading />;
   }
 
-  return <Home />;
+  return (
+    <>
+      <Routes />
+    </>
+  );
 }
