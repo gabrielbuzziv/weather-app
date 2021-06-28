@@ -9,7 +9,9 @@ export const theme = {
     blue10: '#EBF3FF',
 
     white: '#fff',
-    red: '#f00'
+    red: '#f00',
+
+    input: '#e3e3e3'
   },
   fonts: {
     title: 'Inter_700Bold',
