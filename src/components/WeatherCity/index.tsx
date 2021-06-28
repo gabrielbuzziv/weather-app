@@ -15,7 +15,7 @@ interface Props extends RectButtonProps {
   data: FavoriteProps;
 }
 
-export function Favorite({ data, ...rest }: Props) {
+export function WeatherCity({ data, ...rest }: Props) {
   return (
     <Container {...rest}>
       <View>

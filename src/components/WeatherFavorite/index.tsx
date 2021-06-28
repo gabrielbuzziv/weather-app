@@ -27,13 +27,13 @@ import {
   InfoLabel,
 } from './styles';
 
-export function Weather({ data, ...rest }: Props) {
+export function WeatherFavorite({ data, ...rest }: Props) {
   return (
     <Container {...rest}>
       <Status>
         <View>
           <CityName>{data.name}</CityName>
-          <Temperature>{data.temp}</Temperature>
+          <Temperature>{data.temp}°</Temperature>
         </View>
 
         <WeatherIcon />
@@ -41,12 +41,12 @@ export function Weather({ data, ...rest }: Props) {
 
       <InfoContainer>
         <View>
-          <InfoTemperature>{data.temp_min}</InfoTemperature>
+          <InfoTemperature>{data.temp_min}°</InfoTemperature>
           <InfoLabel>Min.</InfoLabel>
         </View>
 
         <View>
-          <InfoTemperature>{data.temp_max}</InfoTemperature>
+          <InfoTemperature>{data.temp_max}°</InfoTemperature>
           <InfoLabel>Máx.</InfoLabel>
         </View>
 

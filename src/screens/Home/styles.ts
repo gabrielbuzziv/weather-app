@@ -19,9 +19,7 @@ export const Header = styled.View`
 `;
 
 export const CitiesList = styled.FlatList<FlatListProps<WeatherProps>>`
-  min-height: 180px;
-  max-height: 180px;
-  margin-bottom: 24px;
+  
 `;
 
 export const FavoritesTitle = styled.Text`
@@ -32,4 +30,7 @@ export const FavoritesTitle = styled.Text`
 `;
 
 export const FavoritesList = styled.FlatList<FlatListProps<any>>`
+  min-height: 180px;
+  max-height: 180px;
+  margin-bottom: 24px;
 `;
