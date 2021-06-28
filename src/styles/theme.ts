@@ -8,11 +8,13 @@ export const theme = {
     blue20: '#A8CCFF',
     blue10: '#EBF3FF',
 
-    white: '#fff'
+    white: '#fff',
+    red: '#f00'
   },
   fonts: {
     title: 'Inter_700Bold',
-    subtitle: 'Inter_500Medium',
+    subtitle: 'Inter_600SemiBold',
+    medium: 'Inter_500Medium',
     text: 'Inter_400Regular'
   }
 }

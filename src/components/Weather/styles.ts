@@ -1,8 +1,8 @@
 import styled from 'styled-components/native';
+import { RectButton } from 'react-native-gesture-handler'
 import { theme } from '../../styles/theme';
 
-export const Container = styled.View`
-  height: 180px;
+export const Container = styled(RectButton)`
   background-color: ${theme.colors.blue20};
   margin-right: 16px;
   padding: 24px;
@@ -31,7 +31,7 @@ export const Temperature = styled.Text`
 export const InfoContainer = styled.View`
   background-color: ${theme.colors.white};
   border-radius: 15px;
-  height: 60px;
+  height: 50px;
   padding: 0 16px;
   margin-top: 16px;
 
@@ -44,7 +44,7 @@ export const Info = styled.View``;
 
 export const InfoTemperature = styled.Text`
   color: ${theme.colors.heading};
-  font-size: 16px;
+  font-size: 14px;
   font-family: ${theme.fonts.title};
 `;
 

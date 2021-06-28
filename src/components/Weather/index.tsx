@@ -1,5 +1,9 @@
 import React from 'react';
+import { RectButtonProps } from 'react-native-gesture-handler';
 import { View } from 'react-native';
+
+import { WeatherIcon } from '../WeatherIcon';
+import { ButtonFavorite } from '../ButtonFavorite';
 
 export type WeatherProps = {
   id: string;
@@ -9,7 +13,7 @@ export type WeatherProps = {
   temp_max: number;
 };
 
-interface Props {
+interface Props extends RectButtonProps {
   data: WeatherProps;
 }
 
@@ -19,31 +23,34 @@ import {
   CityName,
   Temperature,
   InfoContainer,
-  Info,
   InfoTemperature,
   InfoLabel,
 } from './styles';
 
-export function Weather({ data }: Props) {
+export function Weather({ data, ...rest }: Props) {
   return (
-    <Container>
+    <Container {...rest}>
       <Status>
         <View>
           <CityName>{data.name}</CityName>
           <Temperature>{data.temp}</Temperature>
         </View>
+
+        <WeatherIcon />
       </Status>
 
       <InfoContainer>
-        <Info>
+        <View>
           <InfoTemperature>{data.temp_min}</InfoTemperature>
           <InfoLabel>Min.</InfoLabel>
-        </Info>
+        </View>
 
-        <Info>
+        <View>
           <InfoTemperature>{data.temp_max}</InfoTemperature>
           <InfoLabel>Máx.</InfoLabel>
-        </Info>
+        </View>
+
+        <ButtonFavorite />
       </InfoContainer>
     </Container>
   );
