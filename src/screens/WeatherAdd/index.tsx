@@ -1,4 +1,5 @@
 import React from 'react';
+import { City } from '../../components/City';
 
 import { Container, Input, SearchList } from './styles';
 
