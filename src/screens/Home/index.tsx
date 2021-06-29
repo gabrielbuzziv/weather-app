@@ -94,8 +94,6 @@ export function Home() {
         }
       />
 
-      <ButtonAdd onPress={() => AsyncStorage.clear()} />
-
       <ModalView
         visible={openWeatherAddModal}
         closeModal={handleCloseWeatherAddModal}
