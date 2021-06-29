@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+import { useNavigation, useRoute, RouteProp, ParamListBase } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { getForecastsByCity } from '../../services/weather';
 import { useCities } from '../../hooks/cities';
 import { convertCelsiusToFahrenheit } from '../../lib/tempeature';
@@ -10,6 +9,7 @@ import { ButtonIcon } from '../../components/ButtonIcon';
 import { ButtonFavorite } from '../../components/ButtonFavorite';
 import { WeatherIcon } from '../../components/WeatherIcon';
 import { Forecast, ForecastProps } from '../../components/Forecast';
+import { WeatherCityProps } from '../../components/WeatherCity';  
 
 import {
   Container,
@@ -27,12 +27,17 @@ import {
   ButtonRemoveText,
 } from './styles';
 import { theme } from '../../styles/theme';
-import { FlatListProps } from 'react-native';
+
+interface RouteParamsData extends RouteProp<ParamListBase, string> {
+  params: {
+    city: WeatherCityProps
+  }
+}
 
 export function WeatherDetail() {
   const { measure, toggleFavorite, removeCity } = useCities();
   const navigation = useNavigation();
-  const route = useRoute();
+  const route = useRoute<RouteParamsData>();
   const { city } = route.params;
 
   const { blue20, blue60 } = theme.colors;
