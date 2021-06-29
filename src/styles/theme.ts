@@ -9,7 +9,7 @@ export const theme = {
     blue10: '#EBF3FF',
 
     white: '#fff',
-    red: '#f00',
+    red: '#e74c3c',
 
     input: '#e3e3e3'
   },

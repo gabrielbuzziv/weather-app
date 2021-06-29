@@ -11,7 +11,7 @@ export const Greeting = styled.Text`
   font-family: ${theme.fonts.title};
 `;
 
-export const Date = styled.Text`
+export const Day = styled.Text`
   color: ${theme.colors.text};
   font-size: 16px;
   font-family: ${theme.fonts.text};

@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import { Modal, ModalProps, TouchableWithoutFeedback } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { Overlay, Container, Bar } from './styles';
 

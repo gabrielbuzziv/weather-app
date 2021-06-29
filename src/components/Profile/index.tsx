@@ -1,15 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { getHours } from 'date-fns';
+import { format, getHours } from 'date-fns';
+import { ptBR } from 'date-fns/esm/locale';
 
-import { Container, Greeting, Date } from './styles';
+import { Container, Greeting, Day } from './styles';
 
 export function Profile() {
-  const [greeting, setGreeting] = useState('Bom dia');
+  const [greeting, setGreeting] = useState('');
+  const [date, setDate] = useState('');
+
+  useEffect(() => {
+    const now = new Date();
+    const currentHour = getHours(now);
+    const dateFormatted = format(now, "E, dd 'de' MMMM", { locale: ptBR });
+
+    setDate(`${dateFormatted.charAt(0).toUpperCase()}${dateFormatted.slice(1)}`);
+
+    if (currentHour > 6 && currentHour < 12) {
+      setGreeting('Bom dia');
+    } else if (currentHour > 12 && currentHour < 18) {
+      setGreeting('Boa tarde');
+    } else {
+      setGreeting('Boa noite');
+    }
+  }, []);
 
   return (
     <Container>
       <Greeting>{greeting}</Greeting>
-      <Date>Segunda feira, 28 de junho</Date>
+      <Day>{date}</Day>
     </Container>
   );
 }
