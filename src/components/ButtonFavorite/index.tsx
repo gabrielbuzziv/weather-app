@@ -26,7 +26,7 @@ export function ButtonFavorite({
     <Button {...rest} onPress={handleToggle}>
       <MaterialCommunityIcons
         name={isFilled ? 'heart' : 'heart-outline'}
-        color={isFilled ? theme.colors.red : theme.colors.heading}
+        color={isFilled ? theme.colors.red : theme.colors.white}
         size={24}
       />
     </Button>

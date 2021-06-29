@@ -20,7 +20,7 @@ import { CityProps } from '../../components/City';
 import { COLLECTION_CITIES } from '../../config/storage';
 import { useEffect } from 'react';
 import { OpenWeatherAPI } from '../../services/weather';
-import { OPENWEATHER_API_KEY } from '../../config/weather';
+import { OPENWEATHER_API_KEY, OPENWEATHER_CDN_URL } from '../../config/weather';
 import { convertKevinToCelsius } from '../../lib/tempeature';
 
 export function Home() {
@@ -28,13 +28,13 @@ export function Home() {
 
   const [cities, setCities] = useState([]);
   const [openWeatherAddModal, setOpenWeatherAddModal] = useState(false);
-  
-  const favorites = useMemo(() => {
-    return cities.filter(city => city.isFavorite)
-  }, [cities])
 
-  function handleWeatherDetail(weather: WeatherProps) {
-    navigation.navigate('WeatherDetail', { weather });
+  const favorites = useMemo(() => {
+    return cities.filter((city) => city.isFavorite);
+  }, [cities]);
+
+  function handleWeatherDetail(city: WeatherProps) {
+    navigation.navigate('WeatherDetail', { city });
   }
 
   function handleOpenWeatherAddModal() {
@@ -48,7 +48,7 @@ export function Home() {
   async function loadCities() {
     const response = await AsyncStorage.getItem(COLLECTION_CITIES);
     const storagedCities = response ? JSON.parse(response) : [];
-    
+
     // Nesse moment vai ser necessário fazer uma request para  API de clima para atualizar os dados do clima..
 
     setCities(storagedCities);
@@ -59,25 +59,29 @@ export function Home() {
     const storagedCities = response ? JSON.parse(response) : [];
 
     // Neste momento vamos precisar fazer um request para a API de clima, para gravar os dados do clima ...
-  
+
     let weather = {};
 
     const { data } = await OpenWeatherAPI.get('/weather', {
       params: {
         q: city.name,
-        appid: OPENWEATHER_API_KEY
-      }
-    })
+        appid: OPENWEATHER_API_KEY,
+      },
+    });
 
     weather = {
-      weather: data.main,
+      iconUrl: `${OPENWEATHER_CDN_URL}/${data.weather[0].icon}@2x.png`,
       temp: convertKevinToCelsius(data.main.temp),
       temp_min: convertKevinToCelsius(data.main.temp_min),
       temp_max: convertKevinToCelsius(data.main.temp_max),
-    }
+      lat: data.coord.lat,
+      lon: data.coord.lon
+    };
 
-
-    const newCities = [...storagedCities, { ...city, ...weather, isFavorite: false }];
+    const newCities = [
+      ...storagedCities,
+      { ...city, ...weather, isFavorite: false },
+    ];
 
     await AsyncStorage.setItem(COLLECTION_CITIES, JSON.stringify(newCities));
     setCities(newCities);
@@ -88,14 +92,14 @@ export function Home() {
     loadCities();
   }, []);
 
+  console.log('cities', cities)
+
   return (
     <Container>
       <Header>
         <Profile />
         <ButtonAdd onPress={handleOpenWeatherAddModal} />
       </Header>
-
-      <ButtonAdd onPress={() => AsyncStorage.clear()} />
 
       <CitiesList
         data={cities}
@@ -104,26 +108,32 @@ export function Home() {
           <WeatherCity data={item} onPress={() => handleWeatherDetail(item)} />
         )}
         contentContainerStyle={{ paddingBottom: 50 }}
-        ListHeaderComponent={() => (
-          <>
-            <FavoritesList
-              data={favorites}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <WeatherFavorite
-                  data={item}
-                  onPress={() => handleWeatherDetail(item)}
-                />
-              )}
-              horizontal
-              contentContainerStyle={{ paddingLeft: 24, paddingRight: 8 }}
-              showsHorizontalScrollIndicator={false}
-            />
+        ListHeaderComponent={() =>
+          !!favorites.length ? (
+            <>
+              <FavoritesList
+                data={favorites}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <WeatherFavorite
+                    data={item}
+                    onPress={() => handleWeatherDetail(item)}
+                  />
+                )}
+                horizontal
+                contentContainerStyle={{ paddingLeft: 24, paddingRight: 8 }}
+                showsHorizontalScrollIndicator={false}
+              />
 
-            <FavoritesTitle>Suas cidades</FavoritesTitle>
-          </>
-        )}
+              <FavoritesTitle>Suas cidades</FavoritesTitle>
+            </>
+          ) : (
+            <></>
+          )
+        }
       />
+
+      <ButtonAdd onPress={() => AsyncStorage.clear()} />
 
       <ModalView
         visible={openWeatherAddModal}

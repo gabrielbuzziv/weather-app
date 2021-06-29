@@ -20,10 +20,10 @@ export function WeatherCity({ data, ...rest }: Props) {
     <Container {...rest}>
       <View>
         <CityName>{data.name}</CityName>
-        <Temperature>{data.temp}</Temperature>
+        <Temperature>{data.temp}°</Temperature>
       </View>
 
-      <WeatherIcon />
+      <WeatherIcon iconUrl={data.iconUrl} size="large" />
     </Container>
   );
 }
