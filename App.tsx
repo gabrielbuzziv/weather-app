@@ -9,6 +9,7 @@ import {
 } from '@expo-google-fonts/inter';
 
 import { Routes } from './src/routes';
+import { CitiesProvider } from './src/hooks/cities';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -23,8 +24,8 @@ export default function App() {
   }
 
   return (
-    <>
+    <CitiesProvider>
       <Routes />
-    </>
+    </CitiesProvider>
   );
 }

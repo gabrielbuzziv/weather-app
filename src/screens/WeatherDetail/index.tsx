@@ -25,10 +25,12 @@ import { Forecast, ForecastProps } from '../../components/Forecast';
 
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-
-console.log('dt to date', new Date(1624892400 * 1000));
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { COLLECTION_CITIES } from '../../config/storage';
+import { useCities } from '../../hooks/cities';
 
 export function WeatherDetail() {
+  const { toggleFavorite } = useCities()
   const navigation = useNavigation();
   const route = useRoute();
   const { city } = route.params;
@@ -42,6 +44,10 @@ export function WeatherDetail() {
 
   function handleBack() {
     navigation.goBack();
+  }
+
+  async function handleToggleFavorite() {
+    toggleFavorite(city);
   }
 
   async function fetchForecasts() {
@@ -84,7 +90,7 @@ export function WeatherDetail() {
       <Header>
         <ButtonIcon iconName="chevron-left" onPress={handleBack} />
         <Title>{city.name}</Title>
-        <ButtonFavorite isFavorite={false} onPress={() => {}} />
+        <ButtonFavorite isFavorite={city.isFavorite} onPress={handleToggleFavorite} />
       </Header>
 
       <CurrentWeather>

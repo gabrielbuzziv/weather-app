@@ -5,14 +5,19 @@ import { WeatherIcon } from '../WeatherIcon';
 
 import { Container, CityName, Temperature } from './styles';
 
-export type FavoriteProps = {
+export type WeatherCityProps = {
   id: string;
   name: string;
   temp: number;
+  temp_min: number;
+  temp_max: number;
+  iconUrl: string;
+  isFavorite?: boolean;
+  lastUpdate: number;
 };
 
 interface Props extends RectButtonProps {
-  data: FavoriteProps;
+  data: WeatherCityProps;
 }
 
 export function WeatherCity({ data, ...rest }: Props) {

@@ -11,6 +11,7 @@ export type WeatherProps = {
   temp: number;
   temp_min: number;
   temp_max: number;
+  iconUrl: string;
 };
 
 interface Props extends RectButtonProps {
@@ -36,7 +37,7 @@ export function WeatherFavorite({ data, ...rest }: Props) {
           <Temperature>{data.temp}°</Temperature>
         </View>
 
-        <WeatherIcon />
+        <WeatherIcon iconUrl={data.iconUrl} size="small" />
       </Status>
 
       <InfoContainer>
