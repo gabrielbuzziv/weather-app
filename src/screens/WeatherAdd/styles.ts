@@ -5,7 +5,7 @@ import { Loading as LoadingComponent } from '../../components/Loading';
 
 import { theme } from '../../styles/theme';
 
-export const Container = styled.ScrollView`
+export const Container = styled.View`
   min-height: 500px;
   max-height: 500px;
 `;
@@ -24,9 +24,7 @@ export const Input = styled.TextInput`
   margin-bottom: 24px;
 `;
 
-export const SearchList = styled(FlatList as new () => FlatList<CityProps>)`
-
-`
+export const SearchList = styled(FlatList as new () => FlatList<CityProps>)``
 
 export const Loading = styled(LoadingComponent)`
   flex: 1;

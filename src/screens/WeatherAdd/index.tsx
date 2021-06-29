@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { City, CityProps } from '../../components/City';
-import { GOOGLE_API_KEY } from '../../config/places';
 import { useDebounce } from '../../hooks/useDebounce';
 import { PlacesAPI } from '../../services/places';
 
 import { Container, Input, SearchList, Loading } from './styles';
+
+const { GOOGLE_PLACES_API_KEY } = process.env;
 
 type Place = {
   place_id: string;
@@ -31,7 +32,7 @@ export function WeatherAdd({ onAdd }: Props) {
           query: queryTerm,
           region: '.br',
           type: 'locality',
-          key: GOOGLE_API_KEY,
+          key: GOOGLE_PLACES_API_KEY,
           language: 'pt-BR',
         },
       });
@@ -62,7 +63,7 @@ export function WeatherAdd({ onAdd }: Props) {
   }, [queryTerm]);
 
   return (
-    <Container keyboardShouldPersistTaps="handled">
+    <Container>
       <Input
         placeholder="Digite o nome da cidade que deseja"
         autoCompleteType="off"
