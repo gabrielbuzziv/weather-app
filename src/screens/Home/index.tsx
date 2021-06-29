@@ -20,6 +20,7 @@ import { WeatherAdd } from '../WeatherAdd';
 import { CityProps } from '../../components/City';
 import { useCities } from '../../hooks/cities';
 import { EmptyCities } from '../../components/EmptyCities';
+import { TemperatureMeasureToggler } from '../../components/TemperatureMeasureToggler';
 
 
 export function Home() {
@@ -100,6 +101,8 @@ export function Home() {
       >
         <WeatherAdd onAdd={handleAddCity} />
       </ModalView>
+
+      <TemperatureMeasureToggler />
     </Container>
   );
 }

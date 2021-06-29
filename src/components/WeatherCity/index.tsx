@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { RectButtonProps } from 'react-native-gesture-handler';
+import { useCities } from '../../hooks/cities';
+import { convertCelsiusToFahrenheit } from '../../lib/tempeature';
 import { WeatherIcon } from '../WeatherIcon';
 
 import { Container, CityName, Temperature } from './styles';
@@ -21,11 +23,17 @@ interface Props extends RectButtonProps {
 }
 
 export function WeatherCity({ data, ...rest }: Props) {
+  const { measure } = useCities();
+
+  const temperature = useMemo(() => {
+    return measure === 'celsius' ? data.temp : convertCelsiusToFahrenheit(data.temp)
+  }, [measure, data])
+
   return (
     <Container {...rest}>
       <View>
         <CityName>{data.name}</CityName>
-        <Temperature>{data.temp}°</Temperature>
+        <Temperature>{temperature}°</Temperature>
       </View>
 
       <WeatherIcon iconUrl={data.iconUrl} size="large" />

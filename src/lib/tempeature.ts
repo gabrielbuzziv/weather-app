@@ -3,5 +3,5 @@ export const convertKevinToCelsius = (value: number) => {
 }
 
 export const convertCelsiusToFahrenheit = (value: number) => {
-  return Number(Math.floor(value * 12.8) + 32);
+  return Number(Math.floor(value * 9 / 5 + 32));
 }

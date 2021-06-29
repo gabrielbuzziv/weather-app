@@ -19,9 +19,11 @@ interface CitiesContextData {
   unfavorites: WeatherCityProps[];
   favorites: WeatherCityProps[];
   saving: boolean;
-  addCity: (city: CityProps) => void;
+  measure: string;
+  addCity: (city: CityProps) => Promise<void>;
   removeCity: (city: CityProps) => Promise<void>;
-  toggleFavorite: (city: WeatherCityProps) => void;
+  toggleFavorite: (city: WeatherCityProps) => Promise<void>;
+  toggleMeasure: () => void;
 }
 
 interface Props {
@@ -35,6 +37,7 @@ export function CitiesProvider({ children }: Props) {
     [] as WeatherCityProps[]
   );
 
+  const [measure, setMeasure] = useState('celsius');
   const [saving, setSaving] = useState(false);
 
   const unfavorites = useMemo(() => {
@@ -45,30 +48,37 @@ export function CitiesProvider({ children }: Props) {
     return cities.filter((item: WeatherCityProps) => item.isFavorite);
   }, [cities]);
 
-  function sortCitiesByLastUpdate(citiesList: WeatherCityProps[]) {
-    return citiesList
-      .sort((firstCity: WeatherCityProps, secondCity: WeatherCityProps) => {
-        if (firstCity.lastUpdate < secondCity.lastUpdate) {
-          return -1;
-        }
+  const toggleMeasure = useCallback(() => {
+    setMeasure(measure === 'celsius' ? 'fahrenheit' : 'celsius');
+  }, [measure]);
 
-        if (firstCity.lastUpdate > secondCity.lastUpdate) {
-          return 1;
-        }
+  const sortCitiesByLastUpdate = useCallback(
+    (citiesList: WeatherCityProps[]) => {
+      return citiesList
+        .sort((firstCity: WeatherCityProps, secondCity: WeatherCityProps) => {
+          if (firstCity.lastUpdate < secondCity.lastUpdate) {
+            return -1;
+          }
 
-        return 0;
-      })
-      .reverse();
-  }
+          if (firstCity.lastUpdate > secondCity.lastUpdate) {
+            return 1;
+          }
 
-  async function fetchCities() {
+          return 0;
+        })
+        .reverse();
+    },
+    []
+  );
+
+  const fetchCities = useCallback(async () => {
     const response = await AsyncStorage.getItem(COLLECTION_CITIES);
     const storagedCities = response ? JSON.parse(response) : [];
 
     return sortCitiesByLastUpdate(storagedCities);
-  }
+  }, []);
 
-  async function addCity(city: CityProps) {
+  const addCity = useCallback(async (city: WeatherCityProps) => {
     setSaving(true);
     const storagedCities = await fetchCities();
 
@@ -105,20 +115,20 @@ export function CitiesProvider({ children }: Props) {
     );
     setCities(sortCitiesByLastUpdate(updatedCities));
     setSaving(false);
-  }
+  }, []);
 
-  async function removeCity(city: WeatherCityProps) {
+  const removeCity = useCallback(async (city: WeatherCityProps) => {
     const storagedCities = await fetchCities();
-    const updatedCities = storagedCities.filter(item => item.id !== city.id)
+    const updatedCities = storagedCities.filter((item) => item.id !== city.id);
 
     await AsyncStorage.setItem(
       COLLECTION_CITIES,
       JSON.stringify(sortCitiesByLastUpdate(updatedCities))
     );
-    setCities(updatedCities)
-  }
+    setCities(updatedCities);
+  }, []);
 
-  async function toggleFavorite(city: WeatherCityProps) {
+  const toggleFavorite = useCallback(async (city: WeatherCityProps) => {
     const storageCities = await fetchCities();
 
     const cityIndex = storageCities.findIndex(
@@ -131,9 +141,9 @@ export function CitiesProvider({ children }: Props) {
       JSON.stringify(storageCities)
     );
     setCities(storageCities);
-  }
+  }, []);
 
-  async function updateCities(citiesList: WeatherCityProps[]) {
+  const updateCities = useCallback(async (citiesList: WeatherCityProps[]) => {
     const currentTime = Math.floor(Date.now() / 1000);
 
     const updatedCities = await Promise.all<WeatherCityProps>(
@@ -165,14 +175,14 @@ export function CitiesProvider({ children }: Props) {
     }
 
     return updatedCities;
-  }
+  }, []);
 
-  async function loadCities() {
+  const loadCities = useCallback(async () => {
     const storagedCities = await fetchCities();
     const updatedCities = await updateCities(storagedCities);
 
     setCities(updatedCities);
-  }
+  }, []);
 
   useEffect(() => {
     loadCities();
@@ -185,9 +195,11 @@ export function CitiesProvider({ children }: Props) {
         unfavorites,
         favorites,
         saving,
+        measure,
         addCity,
         removeCity,
         toggleFavorite,
+        toggleMeasure,
       }}
     >
       {children}

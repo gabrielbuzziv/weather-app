@@ -37,7 +37,7 @@ export const InfoContainer = styled.View`
 
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
 export const Info = styled.View``;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { RectButtonProps } from 'react-native-gesture-handler';
 import { View } from 'react-native';
 
@@ -27,14 +27,36 @@ import {
   InfoTemperature,
   InfoLabel,
 } from './styles';
+import { useCities } from '../../hooks/cities';
+import { convertCelsiusToFahrenheit } from '../../lib/tempeature';
 
 export function WeatherFavorite({ data, ...rest }: Props) {
+  const { measure } = useCities();
+
+  const temperature = useMemo(() => {
+    return measure === 'celsius'
+      ? data.temp
+      : convertCelsiusToFahrenheit(data.temp);
+  }, [measure, data]);
+
+  const temperatureMin = useMemo(() => {
+    return measure === 'celsius'
+      ? data.temp_min
+      : convertCelsiusToFahrenheit(data.temp_min);
+  }, [measure, data]);
+
+  const temperatureMax = useMemo(() => {
+    return measure === 'celsius'
+      ? data.temp_max
+      : convertCelsiusToFahrenheit(data.temp_max);
+  }, [measure, data]);
+
   return (
     <Container {...rest}>
       <Status>
         <View>
           <CityName>{data.name}</CityName>
-          <Temperature>{data.temp}°</Temperature>
+          <Temperature>{temperature}°</Temperature>
         </View>
 
         <WeatherIcon iconUrl={data.iconUrl} size="small" />
@@ -42,16 +64,14 @@ export function WeatherFavorite({ data, ...rest }: Props) {
 
       <InfoContainer>
         <View>
-          <InfoTemperature>{data.temp_min}°</InfoTemperature>
+          <InfoTemperature>{temperatureMin}°</InfoTemperature>
           <InfoLabel>Min.</InfoLabel>
         </View>
 
         <View>
-          <InfoTemperature>{data.temp_max}°</InfoTemperature>
+          <InfoTemperature>{temperatureMax}°</InfoTemperature>
           <InfoLabel>Máx.</InfoLabel>
         </View>
-
-        <ButtonFavorite />
       </InfoContainer>
     </Container>
   );

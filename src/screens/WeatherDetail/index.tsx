@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { OpenWeatherAPI } from '../../services/weather';
 import { OPENWEATHER_API_KEY, OPENWEATHER_CDN_URL } from '../../config/weather';
 import { useCities } from '../../hooks/cities';
-import { convertKevinToCelsius } from '../../lib/tempeature';
+import { convertCelsiusToFahrenheit, convertKevinToCelsius } from '../../lib/tempeature';
 
 import { ButtonIcon } from '../../components/ButtonIcon';
 import { ButtonFavorite } from '../../components/ButtonFavorite';
@@ -32,7 +32,7 @@ import {
 import { theme } from '../../styles/theme';
 
 export function WeatherDetail() {
-  const { toggleFavorite, removeCity } = useCities();
+  const { measure, toggleFavorite, removeCity } = useCities();
   const navigation = useNavigation();
   const route = useRoute();
   const { city } = route.params;
@@ -43,6 +43,10 @@ export function WeatherDetail() {
     [] as ForecastProps[]
   );
   const [loading, setLoading] = useState(true);
+
+  const temperature = useMemo(() => {
+    return measure === 'celsius' ? city.temp : convertCelsiusToFahrenheit(city.temp);
+  }, [measure, city]);
 
   function handleBack() {
     navigation.goBack();
@@ -107,7 +111,7 @@ export function WeatherDetail() {
 
       <CurrentWeather>
         <WeatherIcon iconUrl={city.iconUrl} size="largest" />
-        <Temperature>{city.temp}°</Temperature>
+        <Temperature>{temperature}°</Temperature>
       </CurrentWeather>
 
       <ContentShadow />
