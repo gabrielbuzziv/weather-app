@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Alert } from 'react-native';
 import { City, CityProps } from '../../components/City';
 import { GOOGLE_API_KEY } from '../../config/places';
 import { useDebounce } from '../../hooks/useDebounce';
 import { PlacesAPI } from '../../services/places';
 
-import { Container, Input, SearchList } from './styles';
+import { Container, Input, SearchList, Loading } from './styles';
 
 type Place = {
   place_id: string;
@@ -19,11 +19,13 @@ interface Props {
 
 export function WeatherAdd({ onAdd }: Props) {
   const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(true);
   const [cities, setCities] = useState<CityProps[]>([] as CityProps[]);
   const queryTerm = useDebounce(query, 300);
 
   async function fetchPlaces() {
     try {
+      setLoading(true);
       const response = await PlacesAPI.get('/textsearch/json', {
         params: {
           query: queryTerm,
@@ -45,7 +47,14 @@ export function WeatherAdd({ onAdd }: Props) {
           };
         })
       );
-    } catch (err) {}
+    } catch (err) {
+      Alert.alert(
+        'Ops, não foi possível carregar os dados da API, tente novamente mais tarde.'
+      );
+      setCities([] as CityProps[]);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -62,14 +71,18 @@ export function WeatherAdd({ onAdd }: Props) {
         onChangeText={setQuery}
       />
 
-      <SearchList
-        data={cities}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <City data={item} onPress={() => onAdd(item)} />
-        )}
-        showsVerticalScrollIndicator={false}
-      />
+      {loading ? (
+        <Loading />
+      ) : (
+        <SearchList
+          data={cities}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <City data={item} onPress={() => onAdd(item)} />
+          )}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </Container>
   );
 }

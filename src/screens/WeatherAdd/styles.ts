@@ -1,8 +1,7 @@
 import styled from 'styled-components/native';
-import { FlatListProps } from 'react-native';
+import { Loading as LoadingComponent } from '../../components/Loading';
 
 import { theme } from '../../styles/theme';
-import { CityProps } from '../../components/City';
 
 export const Container = styled.View`
   min-height: 500px;
@@ -25,4 +24,10 @@ export const Input = styled.TextInput`
 
 export const SearchList = styled.FlatList`
 
+`
+
+export const Loading = styled(LoadingComponent)`
+  flex: 1;
+  align-items: center;
+  justify-content: flex-start;
 `

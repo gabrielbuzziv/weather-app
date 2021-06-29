@@ -43,6 +43,7 @@ export const DayOfWeek = styled.Text`
   color: ${theme.colors.heading};
   font-size: 12px;
   font-family: ${theme.fonts.medium};
+  text-transform: capitalize;
 `;
 
 export const Date = styled.Text`

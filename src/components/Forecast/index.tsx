@@ -4,8 +4,15 @@ import { WeatherIcon } from '../WeatherIcon';
 
 import { Container, Icon, Info, Temperature, DayOfWeek, Date } from './styles';
 
+export type ForecastProps = {
+  id: string;
+  iconUrl: string;
+  temp: number;
+  dayOfWeek: string;
+  date: string;
+}
 interface Props {
-  data: [];
+  data: ForecastProps;
 }
 
 export function Forecast({ data }: Props) {
@@ -18,8 +25,8 @@ export function Forecast({ data }: Props) {
       <Info>
         <Temperature>{data.temp}°</Temperature>
         <View>
-          <DayOfWeek>Segunda</DayOfWeek>
-          <Date>28 junho</Date>
+          <DayOfWeek>{data.dayOfWeek}</DayOfWeek>
+          <Date>{data.date}</Date>
         </View>
       </Info>
     </Container>

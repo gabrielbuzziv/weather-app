@@ -15,14 +15,18 @@ import {
   Content,
   ListTitle,
   ForecastList,
-  Loading
+  Loading,
 } from './styles';
 import { useEffect } from 'react';
 import { OPENWEATHER_API_KEY, OPENWEATHER_CDN_URL } from '../../config/weather';
 import { OpenWeatherAPI } from '../../services/weather';
 import { convertKevinToCelsius } from '../../lib/tempeature';
-import { Forecast } from '../../components/Forecast';
+import { Forecast, ForecastProps } from '../../components/Forecast';
 
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+
+console.log('dt to date', new Date(1624892400 * 1000));
 
 export function WeatherDetail() {
   const navigation = useNavigation();
@@ -31,7 +35,9 @@ export function WeatherDetail() {
 
   const { blue20, blue60 } = theme.colors;
 
-  const [forecasts, setForecasts] = useState([]);
+  const [forecasts, setForecasts] = useState<ForecastProps[]>(
+    [] as ForecastProps[]
+  );
   const [loading, setLoading] = useState(true);
 
   function handleBack() {
@@ -49,14 +55,16 @@ export function WeatherDetail() {
       });
 
       const { daily } = data;
+      daily.shift();
 
       setForecasts(
         daily.map((day) => {
           return {
-            id: day.dt,
+            id: String(day.dt),
             temp: convertKevinToCelsius(day.temp.day),
-            date: day.dt,
             iconUrl: `${OPENWEATHER_CDN_URL}/${day.weather[0].icon}@2x.png`,
+            dayOfWeek: format(new Date(day.dt * 1000), 'E', { locale: ptBR }),
+            date: format(new Date(day.dt * 1000), 'dd MMMM', { locale: ptBR }),
           };
         })
       );

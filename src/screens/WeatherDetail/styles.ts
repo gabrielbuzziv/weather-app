@@ -29,7 +29,7 @@ export const CurrentWeather = styled.View`
   flex-direction: row;
   margin: 0 48px 32px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
 export const Temperature = styled.Text`
