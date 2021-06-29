@@ -1,9 +1,12 @@
 import axios from 'axios';
-import { OPENWEATHER_API_KEY, OPENWEATHER_CDN_URL } from '../config/weather';
 import { convertKevinToCelsius } from '../lib/tempeature';
 
+const { OPENWEATHER_API_URL } = process.env;
+const { OPENWEATHER_API_KEY } = process.env;
+const { OPENWEATHER_CDN_URL } = process.env;
+
 export const OpenWeatherAPI = axios.create({
-  baseURL: 'https://api.openweathermap.org/data/2.5'
+  baseURL: OPENWEATHER_API_URL
 })
 
 export const getWeatherByCity = async (cityName: string) => {
@@ -26,5 +29,4 @@ export const getWeatherByCity = async (cityName: string) => {
   } catch (err) {
     throw new Error('Não foi possível comunicar com a API de Previsão do Tempo.')
   }
-
 };
