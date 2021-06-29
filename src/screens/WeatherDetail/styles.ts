@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { RectButton } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { theme } from '../../styles/theme';
@@ -10,11 +11,11 @@ export const Container = styled(LinearGradient)`
 
 export const Header = styled.View`
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   padding: 0 24px;
   margin-top: ${getStatusBarHeight() + 10}px;
-  margin-bottom: 40px;
+  margin-bottom: 5px;
 `;
 
 export const Title = styled.Text`
@@ -23,7 +24,17 @@ export const Title = styled.Text`
   font-family: ${theme.fonts.title};
   flex: 1;
   text-align: center;
+  margin-top: -7px;
 `;
+
+export const Subtitle = styled.Text`
+  color: ${theme.colors.white};
+  font-size: 16px;
+  font-family: ${theme.fonts.text};
+  text-align: center;
+  margin-bottom: 16px;
+`;
+
 
 export const CurrentWeather = styled.View`
   flex-direction: row;
@@ -50,7 +61,7 @@ export const Content = styled.View`
   background: ${theme.colors.white};
   border-radius: 15px;
   padding: 24px;
-  margin: 0 24px 24px;
+  margin: 0 24px 16px;
   flex: 1;
 `;
 
@@ -58,7 +69,7 @@ export const ListTitle = styled.Text`
   color: ${theme.colors.heading};
   font-size: 16px;
   font-family: ${theme.fonts.subtitle};
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 `;
 
 export const ForecastList = styled.FlatList``;
@@ -67,4 +78,23 @@ export const Loading = styled(LoadingComponent)`
   justify-content: center;
   flex: 1;
   align-items: center;
+`;
+
+export const ButtonRemove = styled(RectButton)`
+  background-color: ${theme.colors.red};
+  border-radius: 15px;
+  
+  height: 50px;
+  margin: 0 24px 24px;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ButtonRemoveText = styled.Text`
+  color: ${theme.colors.white};
+  font-size: 16px;
+  font-family: ${theme.fonts.medium};
+  margin-left: 16px;
 `;

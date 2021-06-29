@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+import { OpenWeatherAPI } from '../../services/weather';
+import { OPENWEATHER_API_KEY, OPENWEATHER_CDN_URL } from '../../config/weather';
+import { useCities } from '../../hooks/cities';
+import { convertKevinToCelsius } from '../../lib/tempeature';
+
 import { ButtonIcon } from '../../components/ButtonIcon';
-import { theme } from '../../styles/theme';
 import { ButtonFavorite } from '../../components/ButtonFavorite';
 import { WeatherIcon } from '../../components/WeatherIcon';
+import { Forecast, ForecastProps } from '../../components/Forecast';
 
 import {
   Container,
   Header,
   Title,
+  Subtitle,
   CurrentWeather,
   Temperature,
   ContentShadow,
@@ -16,21 +26,13 @@ import {
   ListTitle,
   ForecastList,
   Loading,
+  ButtonRemove,
+  ButtonRemoveText,
 } from './styles';
-import { useEffect } from 'react';
-import { OPENWEATHER_API_KEY, OPENWEATHER_CDN_URL } from '../../config/weather';
-import { OpenWeatherAPI } from '../../services/weather';
-import { convertKevinToCelsius } from '../../lib/tempeature';
-import { Forecast, ForecastProps } from '../../components/Forecast';
-
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COLLECTION_CITIES } from '../../config/storage';
-import { useCities } from '../../hooks/cities';
+import { theme } from '../../styles/theme';
 
 export function WeatherDetail() {
-  const { toggleFavorite } = useCities()
+  const { toggleFavorite, removeCity } = useCities();
   const navigation = useNavigation();
   const route = useRoute();
   const { city } = route.params;
@@ -44,6 +46,11 @@ export function WeatherDetail() {
 
   function handleBack() {
     navigation.goBack();
+  }
+
+  async function handleRemoveCity() {
+    await removeCity(city);
+    navigation.navigate('Home');
   }
 
   async function handleToggleFavorite() {
@@ -90,8 +97,13 @@ export function WeatherDetail() {
       <Header>
         <ButtonIcon iconName="chevron-left" onPress={handleBack} />
         <Title>{city.name}</Title>
-        <ButtonFavorite isFavorite={city.isFavorite} onPress={handleToggleFavorite} />
+        <ButtonFavorite
+          isFavorite={city.isFavorite}
+          onPress={handleToggleFavorite}
+        />
       </Header>
+
+      <Subtitle>Clima Hoje</Subtitle>
 
       <CurrentWeather>
         <WeatherIcon iconUrl={city.iconUrl} size="largest" />
@@ -113,6 +125,16 @@ export function WeatherDetail() {
           />
         )}
       </Content>
+
+      <ButtonRemove onPress={handleRemoveCity}>
+        <MaterialCommunityIcons
+          name="trash-can"
+          size={20}
+          color={theme.colors.white}
+        />
+
+        <ButtonRemoveText>Remover</ButtonRemoveText>
+      </ButtonRemove>
     </Container>
   );
 }

@@ -20,6 +20,7 @@ interface CitiesContextData {
   favorites: WeatherCityProps[];
   saving: boolean;
   addCity: (city: CityProps) => void;
+  removeCity: (city: CityProps) => Promise<void>;
   toggleFavorite: (city: WeatherCityProps) => void;
 }
 
@@ -106,6 +107,17 @@ export function CitiesProvider({ children }: Props) {
     setSaving(false);
   }
 
+  async function removeCity(city: WeatherCityProps) {
+    const storagedCities = await fetchCities();
+    const updatedCities = storagedCities.filter(item => item.id !== city.id)
+
+    await AsyncStorage.setItem(
+      COLLECTION_CITIES,
+      JSON.stringify(sortCitiesByLastUpdate(updatedCities))
+    );
+    setCities(updatedCities)
+  }
+
   async function toggleFavorite(city: WeatherCityProps) {
     const storageCities = await fetchCities();
 
@@ -174,6 +186,7 @@ export function CitiesProvider({ children }: Props) {
         favorites,
         saving,
         addCity,
+        removeCity,
         toggleFavorite,
       }}
     >
