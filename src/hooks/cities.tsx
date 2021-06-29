@@ -78,7 +78,7 @@ export function CitiesProvider({ children }: Props) {
     return sortCitiesByLastUpdate(storagedCities);
   }, []);
 
-  const addCity = useCallback(async (city: WeatherCityProps) => {
+  const addCity = useCallback(async (city: CityProps) => {
     setSaving(true);
     const storagedCities = await fetchCities();
 
