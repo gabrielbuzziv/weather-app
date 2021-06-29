@@ -1,5 +1,7 @@
-import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
+
+import styled from 'styled-components/native';
+
 import { theme } from '../../styles/theme';
 
 export const Container = styled(RectButton)`

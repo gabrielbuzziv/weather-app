@@ -1,5 +1,5 @@
 import React from 'react';
-import AppLoading from 'expo-app-loading';
+
 import {
   useFonts,
   Inter_400Regular,
@@ -7,9 +7,10 @@ import {
   Inter_600SemiBold,
   Inter_700Bold,
 } from '@expo-google-fonts/inter';
+import AppLoading from 'expo-app-loading';
 
-import { Routes } from './src/routes';
 import { CitiesProvider } from './src/hooks/cities';
+import { Routes } from './src/routes';
 
 export default function App() {
   const [fontsLoaded] = useFonts({

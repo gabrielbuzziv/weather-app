@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import { format, getHours, ptBR } from 'date-fns';
 
 import { Container, Greeting, Day } from './styles';

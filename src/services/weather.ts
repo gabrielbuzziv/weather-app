@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import { format, ptBR } from 'date-fns';
 
 import { convertKevinToCelsius } from '../lib/tempeature';

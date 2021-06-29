@@ -7,3 +7,6 @@ metro.config.js
 package.json
 prerttier.config.js
 tsconfig.json
+
+*.css
+*.svg

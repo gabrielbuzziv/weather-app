@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { TouchableWithoutFeedbackProps } from 'react-native';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { Button } from './styles';
 import { theme } from '../../styles/theme';
+import { Button } from './styles';
 
 interface Props extends TouchableWithoutFeedbackProps {
   isFavorite: boolean;

@@ -8,11 +8,13 @@ import React, {
   useMemo,
 } from 'react';
 import { Alert } from 'react-native';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { CityProps } from '../components/City';
 import { WeatherCityProps } from '../components/WeatherCity';
 import { COLLECTION_CITIES } from '../config/storage';
 import { getWeatherByCity } from '../services/weather';
-import { CityProps } from '../components/City';
 
 interface CitiesContextData {
   cities: WeatherCityProps[];

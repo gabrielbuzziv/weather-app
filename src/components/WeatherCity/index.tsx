@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { RectButtonProps } from 'react-native-gesture-handler';
+
 import { useCities } from '../../hooks/cities';
 import { convertCelsiusToFahrenheit } from '../../lib/tempeature';
 import { WeatherIcon } from '../WeatherIcon';
-
 import { Container, CityName, Temperature } from './styles';
 
 export type WeatherCityProps = {

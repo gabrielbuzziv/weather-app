@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
+
 import { useNavigation } from '@react-navigation/native';
 
 import { ButtonAdd } from '../../components/ButtonAdd';
+import { CityProps } from '../../components/City';
+import { EmptyCities } from '../../components/EmptyCities';
+import { ModalView } from '../../components/ModalView';
 import { Profile } from '../../components/Profile';
+import { TemperatureMeasureToggler } from '../../components/TemperatureMeasureToggler';
 import { WeatherCity, WeatherCityProps } from '../../components/WeatherCity';
 import { WeatherFavorite } from '../../components/WeatherFavorite';
-
+import { useCities } from '../../hooks/cities';
+import { WeatherAdd } from '../WeatherAdd';
 import {
   Container,
   Header,
@@ -14,12 +20,6 @@ import {
   FavoritesList,
   Saving,
 } from './styles';
-import { ModalView } from '../../components/ModalView';
-import { WeatherAdd } from '../WeatherAdd';
-import { CityProps } from '../../components/City';
-import { useCities } from '../../hooks/cities';
-import { EmptyCities } from '../../components/EmptyCities';
-import { TemperatureMeasureToggler } from '../../components/TemperatureMeasureToggler';
 
 export function Home() {
   const navigation = useNavigation();

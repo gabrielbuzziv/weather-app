@@ -1,5 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, ActivityIndicatorProps } from 'react-native';
+
 import { theme } from '../../styles/theme';
 
 export function Loading({ ...rest }: ActivityIndicatorProps) {

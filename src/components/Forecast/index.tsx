@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
+
 import { useCities } from '../../hooks/cities';
 import { convertCelsiusToFahrenheit } from '../../lib/tempeature';
 import { WeatherIcon } from '../WeatherIcon';
-
 import {
   Container, Icon, Info, Temperature, DayOfWeek, Date,
 } from './styles';

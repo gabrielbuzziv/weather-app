@@ -1,8 +1,9 @@
-import styled from 'styled-components/native';
 import { FlatList } from 'react-native';
+
+import styled from 'styled-components/native';
+
 import { CityProps } from '../../components/City';
 import { Loading as LoadingComponent } from '../../components/Loading';
-
 import { theme } from '../../styles/theme';
 
 export const Container = styled.View`

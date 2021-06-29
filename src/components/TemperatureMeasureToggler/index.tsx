@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch } from 'react-native';
-import { useCities } from '../../hooks/cities';
 
+import { useCities } from '../../hooks/cities';
 import { Container, Label } from './styles';
 
 export function TemperatureMeasureToggler() {

@@ -1,9 +1,10 @@
 import React from 'react';
 import { BorderlessButtonProps } from 'react-native-gesture-handler';
+
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { Button } from './styles';
 import { theme } from '../../styles/theme';
+import { Button } from './styles';
 
 type Props = BorderlessButtonProps
 

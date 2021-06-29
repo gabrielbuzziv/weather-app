@@ -20,6 +20,7 @@ module.exports = {
   plugins: [
     'react',
     '@typescript-eslint',
+    'eslint-plugin-import-helpers',
   ],
   rules: {
     'no-use-before-define': 'off',
@@ -42,6 +43,21 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
+    'import-helpers/order-imports': [
+      'warn',
+      { // example configuration
+        newlinesBetween: 'always',
+        groups: [
+          '/^react/',
+          'module',
+          ['/^@services/', '/^@hooks/'],
+          '/^@components/',
+          '/^@styles/',
+          ['parent', 'sibling', 'index'],
+        ],
+        alphabetize: { order: 'asc', ignoreCase: true },
+      },
+    ],
   },
   settings: {
     'import/resolver': {

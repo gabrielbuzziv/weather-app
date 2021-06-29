@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
+
 import { City, CityProps } from '../../components/City';
 import { useDebounce } from '../../hooks/useDebounce';
 import { PlacesAPI } from '../../services/places';
-
 import {
   Container, Input, SearchList, Loading,
 } from './styles';

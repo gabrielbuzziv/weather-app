@@ -1,12 +1,13 @@
-import styled from 'styled-components/native';
 import { Platform, FlatList } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
-import { LinearGradient } from 'expo-linear-gradient';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
-import { theme } from '../../styles/theme';
-import { Loading as LoadingComponent } from '../../components/Loading';
+
+import { LinearGradient } from 'expo-linear-gradient';
+import styled from 'styled-components/native';
 
 import { ForecastProps } from '../../components/Forecast';
+import { Loading as LoadingComponent } from '../../components/Loading';
+import { theme } from '../../styles/theme';
 
 export const Container = styled(LinearGradient)`
   flex: 1;

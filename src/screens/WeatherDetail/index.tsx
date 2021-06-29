@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useMemo } from 'react';
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   useNavigation, useRoute, RouteProp, ParamListBase,
 } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { getForecastsByCity } from '../../services/weather';
-import { useCities } from '../../hooks/cities';
-import { convertCelsiusToFahrenheit } from '../../lib/tempeature';
 
-import { ButtonIcon } from '../../components/ButtonIcon';
 import { ButtonFavorite } from '../../components/ButtonFavorite';
-import { WeatherIcon } from '../../components/WeatherIcon';
+import { ButtonIcon } from '../../components/ButtonIcon';
 import { Forecast, ForecastProps } from '../../components/Forecast';
 import { WeatherCityProps } from '../../components/WeatherCity';
-
+import { WeatherIcon } from '../../components/WeatherIcon';
+import { useCities } from '../../hooks/cities';
+import { convertCelsiusToFahrenheit } from '../../lib/tempeature';
+import { getForecastsByCity } from '../../services/weather';
+import { theme } from '../../styles/theme';
 import {
   Container,
   Header,
@@ -28,7 +29,6 @@ import {
   ButtonRemove,
   ButtonRemoveText,
 } from './styles';
-import { theme } from '../../styles/theme';
 
 interface RouteParamsData extends RouteProp<ParamListBase, string> {
   params: {
