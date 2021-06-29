@@ -12,14 +12,14 @@ interface Props extends ModalProps {
 export function ModalView({ children, closeModal, ...rest }: Props) {
   return (
     <Modal transparent statusBarTranslucent animationType="slide" {...rest}>
-      {/* <TouchableWithoutFeedback onPress={() => {}}> */}
-      <Overlay>
-        <Container>
-          <Bar />
-          {children}
-        </Container>
-      </Overlay>
-      {/* </TouchableWithoutFeedback> */}
+      <TouchableWithoutFeedback onPress={closeModal}>
+        <Overlay>
+          <Container>
+            <Bar />
+            {children}
+          </Container>
+        </Overlay>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 }
