@@ -14,7 +14,7 @@ export const Header = styled.View`
   align-items: flex-start;
   justify-content: space-between;
   padding: 0 24px;
-  margin-top: ${getStatusBarHeight() + 10}px;
+  margin-top: ${getStatusBarHeight() + 30}px;
   margin-bottom: 5px;
 `;
 
