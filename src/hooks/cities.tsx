@@ -21,7 +21,7 @@ interface CitiesContextData {
   saving: boolean;
   measure: string;
   addCity: (city: CityProps) => Promise<void>;
-  removeCity: (city: CityProps) => Promise<void>;
+  removeCity: (city: WeatherCityProps) => Promise<void>;
   toggleFavorite: (city: WeatherCityProps) => Promise<void>;
   toggleMeasure: () => void;
 }

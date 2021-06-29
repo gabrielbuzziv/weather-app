@@ -14,8 +14,10 @@ export type WeatherCityProps = {
   temp_min: number;
   temp_max: number;
   iconUrl: string;
-  isFavorite?: boolean;
+  isFavorite: boolean;
   lastUpdate: number;
+  lat: number;
+  lon: number;
 };
 
 interface Props extends RectButtonProps {
