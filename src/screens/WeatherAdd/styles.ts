@@ -3,7 +3,7 @@ import { Loading as LoadingComponent } from '../../components/Loading';
 
 import { theme } from '../../styles/theme';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   min-height: 500px;
   max-height: 500px;
 `;

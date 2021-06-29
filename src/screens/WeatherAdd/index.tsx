@@ -62,7 +62,7 @@ export function WeatherAdd({ onAdd }: Props) {
   }, [queryTerm]);
 
   return (
-    <Container>
+    <Container keyboardShouldPersistTaps="handled">
       <Input
         placeholder="Digite o nome da cidade que deseja"
         autoCompleteType="off"
