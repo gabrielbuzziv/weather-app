@@ -18,6 +18,7 @@ interface CitiesContextData {
   cities: WeatherCityProps[];
   unfavorites: WeatherCityProps[];
   favorites: WeatherCityProps[];
+  saving: boolean;
   addCity: (city: CityProps) => void;
   toggleFavorite: (city: WeatherCityProps) => void;
 }
@@ -33,6 +34,8 @@ export function CitiesProvider({ children }: Props) {
     [] as WeatherCityProps[]
   );
 
+  const [saving, setSaving] = useState(false);
+
   const unfavorites = useMemo(() => {
     return cities.filter((item: WeatherCityProps) => !item.isFavorite);
   }, [cities]);
@@ -41,14 +44,31 @@ export function CitiesProvider({ children }: Props) {
     return cities.filter((item: WeatherCityProps) => item.isFavorite);
   }, [cities]);
 
+  function sortCitiesByLastUpdate(citiesList: WeatherCityProps[]) {
+    return citiesList
+      .sort((firstCity: WeatherCityProps, secondCity: WeatherCityProps) => {
+        if (firstCity.lastUpdate < secondCity.lastUpdate) {
+          return -1;
+        }
+
+        if (firstCity.lastUpdate > secondCity.lastUpdate) {
+          return 1;
+        }
+
+        return 0;
+      })
+      .reverse();
+  }
+
   async function fetchCities() {
     const response = await AsyncStorage.getItem(COLLECTION_CITIES);
     const storagedCities = response ? JSON.parse(response) : [];
 
-    return storagedCities;
+    return sortCitiesByLastUpdate(storagedCities);
   }
 
   async function addCity(city: CityProps) {
+    setSaving(true);
     const storagedCities = await fetchCities();
 
     let weatherCityData = {
@@ -64,6 +84,8 @@ export function CitiesProvider({ children }: Props) {
       weatherCityData = await getWeatherByCity(city.name);
     } catch (err) {
       Alert.alert(err.message);
+      setSaving(false);
+      return;
     }
 
     const updatedCities = [
@@ -78,9 +100,10 @@ export function CitiesProvider({ children }: Props) {
 
     await AsyncStorage.setItem(
       COLLECTION_CITIES,
-      JSON.stringify(updatedCities)
+      JSON.stringify(sortCitiesByLastUpdate(updatedCities))
     );
-    setCities(updatedCities);
+    setCities(sortCitiesByLastUpdate(updatedCities));
+    setSaving(false);
   }
 
   async function toggleFavorite(city: WeatherCityProps) {
@@ -107,7 +130,7 @@ export function CitiesProvider({ children }: Props) {
          * Caso a última atualização da previsão foi a mais de 30 minutos.
          */
         if (Math.floor((currentTime - item.lastUpdate) / 60) > 30) {
-          console.log('requesting from data base ...')
+          console.log('requesting from data base ...');
 
           try {
             const weatherCityData = await getWeatherByCity(item.name);
@@ -145,7 +168,14 @@ export function CitiesProvider({ children }: Props) {
 
   return (
     <CitiesContext.Provider
-      value={{ cities, unfavorites, favorites, addCity, toggleFavorite }}
+      value={{
+        cities,
+        unfavorites,
+        favorites,
+        saving,
+        addCity,
+        toggleFavorite,
+      }}
     >
       {children}
     </CitiesContext.Provider>

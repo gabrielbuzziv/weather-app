@@ -13,15 +13,18 @@ import {
   CitiesList,
   FavoritesTitle,
   FavoritesList,
+  Saving,
 } from './styles';
 import { ModalView } from '../../components/ModalView';
 import { WeatherAdd } from '../WeatherAdd';
 import { CityProps } from '../../components/City';
 import { useCities } from '../../hooks/cities';
+import { EmptyCities } from '../../components/EmptyCities';
+
 
 export function Home() {
   const navigation = useNavigation();
-  const { unfavorites: cities, favorites, addCity } = useCities();
+  const { unfavorites: cities, favorites, saving, addCity } = useCities();
 
   const [openWeatherAddModal, setOpenWeatherAddModal] = useState(false);
 
@@ -38,8 +41,8 @@ export function Home() {
   }
 
   async function handleAddCity(city: CityProps) {
-    addCity(city);
     setOpenWeatherAddModal(false);
+    addCity(city);
   }
 
   return (
@@ -55,7 +58,7 @@ export function Home() {
         renderItem={({ item }) => (
           <WeatherCity data={item} onPress={() => handleWeatherDetail(item)} />
         )}
-        contentContainerStyle={{ paddingBottom: 50 }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }}
         ListHeaderComponent={() =>
           !!favorites.length ? (
             <>
@@ -74,17 +77,17 @@ export function Home() {
               />
 
               <FavoritesTitle>Suas cidades</FavoritesTitle>
+
+              {saving && <Saving />}
             </>
           ) : (
             <></>
           )
         }
+        ListFooterComponentStyle={{flex:1, justifyContent: 'flex-end'}}
         ListFooterComponent={() =>
           !cities.length ? (
-            <EmptyCities>
-              <EmptyCitiesTitle></EmptyCitiesTitle>
-              <EmptyCitiesText></EmptyCitiesText>
-            </EmptyCities>
+            <EmptyCities />
           ) : (
             <></>
           )
