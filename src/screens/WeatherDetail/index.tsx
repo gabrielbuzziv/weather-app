@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigation, useRoute, RouteProp, ParamListBase } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import {
+  useNavigation, useRoute, RouteProp, ParamListBase,
+} from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getForecastsByCity } from '../../services/weather';
 import { useCities } from '../../hooks/cities';
 import { convertCelsiusToFahrenheit } from '../../lib/tempeature';
@@ -9,7 +11,7 @@ import { ButtonIcon } from '../../components/ButtonIcon';
 import { ButtonFavorite } from '../../components/ButtonFavorite';
 import { WeatherIcon } from '../../components/WeatherIcon';
 import { Forecast, ForecastProps } from '../../components/Forecast';
-import { WeatherCityProps } from '../../components/WeatherCity';  
+import { WeatherCityProps } from '../../components/WeatherCity';
 
 import {
   Container,
@@ -43,13 +45,11 @@ export function WeatherDetail() {
   const { blue20, blue60 } = theme.colors;
 
   const [forecasts, setForecasts] = useState<ForecastProps[]>(
-    [] as ForecastProps[]
+    [] as ForecastProps[],
   );
   const [loading, setLoading] = useState(true);
 
-  const temperature = useMemo(() => {
-    return measure === 'celsius' ? city.temp : convertCelsiusToFahrenheit(city.temp);
-  }, [measure, city]);
+  const temperature = useMemo(() => (measure === 'celsius' ? city.temp : convertCelsiusToFahrenheit(city.temp)), [measure, city]);
 
   function handleBack() {
     navigation.goBack();
@@ -69,7 +69,7 @@ export function WeatherDetail() {
       const forecastsData = await getForecastsByCity(city.lat, city.lon);
       setForecasts(forecastsData);
     } catch (err) {
-      setForecasts([] as ForecastProps[])
+      setForecasts([] as ForecastProps[]);
     } finally {
       setLoading(false);
     }
@@ -94,7 +94,10 @@ export function WeatherDetail() {
 
       <CurrentWeather>
         <WeatherIcon iconUrl={city.iconUrl} size="largest" />
-        <Temperature>{temperature}°</Temperature>
+        <Temperature>
+          {temperature}
+          °
+        </Temperature>
       </CurrentWeather>
 
       <ContentShadow />

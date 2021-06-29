@@ -7,7 +7,7 @@ import { theme } from '../../styles/theme';
 
 interface Props extends BorderlessButtonProps {
   iconName: 'chevron-left'
-} 
+}
 
 export function ButtonIcon({ iconName, ...rest }: Props) {
   return (

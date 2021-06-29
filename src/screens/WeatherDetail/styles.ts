@@ -6,9 +6,7 @@ import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { theme } from '../../styles/theme';
 import { Loading as LoadingComponent } from '../../components/Loading';
 
-
 import { ForecastProps } from '../../components/Forecast';
-
 
 export const Container = styled(LinearGradient)`
   flex: 1;
@@ -39,7 +37,6 @@ export const Subtitle = styled.Text`
   text-align: center;
   margin-bottom: 16px;
 `;
-
 
 export const CurrentWeather = styled.View`
   flex-direction: row;

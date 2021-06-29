@@ -8,11 +8,11 @@ import React, {
   useMemo,
 } from 'react';
 import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WeatherCityProps } from '../components/WeatherCity';
 import { COLLECTION_CITIES } from '../config/storage';
 import { getWeatherByCity } from '../services/weather';
 import { CityProps } from '../components/City';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface CitiesContextData {
   cities: WeatherCityProps[];
@@ -34,41 +34,39 @@ const CitiesContext = createContext({} as CitiesContextData);
 
 export function CitiesProvider({ children }: Props) {
   const [cities, setCities] = useState<WeatherCityProps[]>(
-    [] as WeatherCityProps[]
+    [] as WeatherCityProps[],
   );
 
   const [measure, setMeasure] = useState('celsius');
   const [saving, setSaving] = useState(false);
 
-  const unfavorites = useMemo(() => {
-    return cities.filter((item: WeatherCityProps) => !item.isFavorite);
-  }, [cities]);
+  const unfavorites = useMemo(() => cities.filter(
+    (item: WeatherCityProps) => !item.isFavorite,
+  ), [cities]);
 
-  const favorites = useMemo(() => {
-    return cities.filter((item: WeatherCityProps) => item.isFavorite);
-  }, [cities]);
+  const favorites = useMemo(() => cities.filter(
+    (item: WeatherCityProps) => item.isFavorite,
+  ), [cities]);
 
   const toggleMeasure = useCallback(() => {
     setMeasure(measure === 'celsius' ? 'fahrenheit' : 'celsius');
   }, [measure]);
 
   const sortCitiesByLastUpdate = useCallback(
-    (citiesList: WeatherCityProps[]) => {
-      return citiesList
-        .sort((firstCity: WeatherCityProps, secondCity: WeatherCityProps) => {
-          if (firstCity.lastUpdate < secondCity.lastUpdate) {
-            return -1;
-          }
+    (citiesList: WeatherCityProps[]) => citiesList
+      .sort((firstCity: WeatherCityProps, secondCity: WeatherCityProps) => {
+        if (firstCity.lastUpdate < secondCity.lastUpdate) {
+          return -1;
+        }
 
-          if (firstCity.lastUpdate > secondCity.lastUpdate) {
-            return 1;
-          }
+        if (firstCity.lastUpdate > secondCity.lastUpdate) {
+          return 1;
+        }
 
-          return 0;
-        })
-        .reverse();
-    },
-    []
+        return 0;
+      })
+      .reverse(),
+    [],
   );
 
   const fetchCities = useCallback(async () => {
@@ -111,7 +109,7 @@ export function CitiesProvider({ children }: Props) {
 
     await AsyncStorage.setItem(
       COLLECTION_CITIES,
-      JSON.stringify(sortCitiesByLastUpdate(updatedCities))
+      JSON.stringify(sortCitiesByLastUpdate(updatedCities)),
     );
     setCities(sortCitiesByLastUpdate(updatedCities));
     setSaving(false);
@@ -123,7 +121,7 @@ export function CitiesProvider({ children }: Props) {
 
     await AsyncStorage.setItem(
       COLLECTION_CITIES,
-      JSON.stringify(sortCitiesByLastUpdate(updatedCities))
+      JSON.stringify(sortCitiesByLastUpdate(updatedCities)),
     );
     setCities(updatedCities);
   }, []);
@@ -132,13 +130,13 @@ export function CitiesProvider({ children }: Props) {
     const storageCities = await fetchCities();
 
     const cityIndex = storageCities.findIndex(
-      (item: WeatherCityProps) => item.id === city.id
+      (item: WeatherCityProps) => item.id === city.id,
     );
     storageCities[cityIndex].isFavorite = !storageCities[cityIndex].isFavorite;
 
     await AsyncStorage.setItem(
       COLLECTION_CITIES,
-      JSON.stringify(storageCities)
+      JSON.stringify(storageCities),
     );
     setCities(storageCities);
   }, []);
@@ -152,8 +150,6 @@ export function CitiesProvider({ children }: Props) {
          * Caso a última atualização da previsão foi a mais de 30 minutos.
          */
         if (Math.floor((currentTime - item.lastUpdate) / 60) > 30) {
-          console.log('requesting from data base ...');
-
           try {
             const weatherCityData = await getWeatherByCity(item.name);
 
@@ -164,13 +160,13 @@ export function CitiesProvider({ children }: Props) {
         }
 
         return item;
-      })
+      }),
     );
 
     if (updatedCities.length) {
       await AsyncStorage.setItem(
         COLLECTION_CITIES,
-        JSON.stringify(updatedCities)
+        JSON.stringify(updatedCities),
       );
     }
 

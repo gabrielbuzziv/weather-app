@@ -12,7 +12,7 @@ interface Props extends TouchableWithoutFeedbackProps {
 
 export function ButtonFavorite({
   isFavorite = false,
-  onPress = () => {},
+  onPress,
   ...rest
 }: Props) {
   const [isFilled, setIsFilled] = useState<boolean>(isFavorite);

@@ -27,15 +27,16 @@ interface Props extends RectButtonProps {
 export function WeatherCity({ data, ...rest }: Props) {
   const { measure } = useCities();
 
-  const temperature = useMemo(() => {
-    return measure === 'celsius' ? data.temp : convertCelsiusToFahrenheit(data.temp)
-  }, [measure, data])
+  const temperature = useMemo(() => (measure === 'celsius' ? data.temp : convertCelsiusToFahrenheit(data.temp)), [measure, data]);
 
   return (
     <Container {...rest}>
       <View>
         <CityName>{data.name}</CityName>
-        <Temperature>{temperature}°</Temperature>
+        <Temperature>
+          {temperature}
+          °
+        </Temperature>
       </View>
 
       <WeatherIcon iconUrl={data.iconUrl} size="large" />

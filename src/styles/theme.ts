@@ -11,12 +11,12 @@ export const theme = {
     white: '#fff',
     red: '#e74c3c',
 
-    input: '#e3e3e3'
+    input: '#e3e3e3',
   },
   fonts: {
     title: 'Inter_700Bold',
     subtitle: 'Inter_600SemiBold',
     medium: 'Inter_500Medium',
-    text: 'Inter_400Regular'
-  }
-}
+    text: 'Inter_400Regular',
+  },
+};

@@ -4,7 +4,9 @@ import { City, CityProps } from '../../components/City';
 import { useDebounce } from '../../hooks/useDebounce';
 import { PlacesAPI } from '../../services/places';
 
-import { Container, Input, SearchList, Loading } from './styles';
+import {
+  Container, Input, SearchList, Loading,
+} from './styles';
 
 const { GOOGLE_PLACES_API_KEY } = process.env;
 
@@ -40,17 +42,15 @@ export function WeatherAdd({ onAdd }: Props) {
       const { results } = response.data;
 
       setCities(
-        results.map((city: Place) => {
-          return {
-            id: city.place_id,
-            name: city.name,
-            country: city.formatted_address.split(', ').pop(),
-          };
-        })
+        results.map((city: Place) => ({
+          id: city.place_id,
+          name: city.name,
+          country: city.formatted_address.split(', ').pop(),
+        })),
       );
     } catch (err) {
       Alert.alert(
-        'Ops, não foi possível carregar os dados da API, tente novamente mais tarde.'
+        'Ops, não foi possível carregar os dados da API, tente novamente mais tarde.',
       );
       setCities([] as CityProps[]);
     } finally {

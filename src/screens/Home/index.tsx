@@ -1,6 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { ButtonAdd } from '../../components/ButtonAdd';
 import { Profile } from '../../components/Profile';
@@ -22,10 +21,11 @@ import { useCities } from '../../hooks/cities';
 import { EmptyCities } from '../../components/EmptyCities';
 import { TemperatureMeasureToggler } from '../../components/TemperatureMeasureToggler';
 
-
 export function Home() {
   const navigation = useNavigation();
-  const { unfavorites: cities, favorites, saving, addCity } = useCities();
+  const {
+    unfavorites: cities, favorites, saving, addCity,
+  } = useCities();
 
   const [openWeatherAddModal, setOpenWeatherAddModal] = useState(false);
 
@@ -60,39 +60,35 @@ export function Home() {
           <WeatherCity data={item} onPress={() => handleWeatherDetail(item)} />
         )}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }}
-        ListHeaderComponent={() =>
-          !!favorites.length ? (
-            <>
-              <FavoritesList
-                data={favorites}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                  <WeatherFavorite
-                    data={item}
-                    onPress={() => handleWeatherDetail(item)}
-                  />
-                )}
-                horizontal
-                contentContainerStyle={{ paddingLeft: 24, paddingRight: 8 }}
-                showsHorizontalScrollIndicator={false}
-              />
+        ListHeaderComponent={() => (favorites.length ? (
+          <>
+            <FavoritesList
+              data={favorites}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <WeatherFavorite
+                  data={item}
+                  onPress={() => handleWeatherDetail(item)}
+                />
+              )}
+              horizontal
+              contentContainerStyle={{ paddingLeft: 24, paddingRight: 8 }}
+              showsHorizontalScrollIndicator={false}
+            />
 
-              <FavoritesTitle>Suas cidades</FavoritesTitle>
+            <FavoritesTitle>Suas cidades</FavoritesTitle>
 
-              {saving && <Saving />}
-            </>
-          ) : (
-            <></>
-          )
-        }
-        ListFooterComponentStyle={{flex:1, justifyContent: 'flex-end'}}
-        ListFooterComponent={() =>
-          !cities.length ? (
-            <EmptyCities />
-          ) : (
-            <></>
-          )
-        }
+            {saving && <Saving />}
+          </>
+        ) : (
+          <></>
+        ))}
+        ListFooterComponentStyle={{ flex: 1, justifyContent: 'flex-end' }}
+        ListFooterComponent={() => (!cities.length ? (
+          <EmptyCities />
+        ) : (
+          <></>
+        ))}
       />
 
       <ModalView

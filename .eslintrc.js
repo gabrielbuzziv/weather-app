@@ -6,6 +6,7 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
     'airbnb',
   ],
   parser: '@typescript-eslint/parser',
@@ -32,6 +33,15 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'import/prefer-default-export': 'off',
+    camelcase: 'off',
+    'no-mixed-operators': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
   },
   settings: {
     'import/resolver': {

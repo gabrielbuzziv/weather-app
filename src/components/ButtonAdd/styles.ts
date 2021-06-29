@@ -12,4 +12,3 @@ export const Button = styled(BorderlessButton)`
   align-items: center;
   justify-content: center;
 `;
-

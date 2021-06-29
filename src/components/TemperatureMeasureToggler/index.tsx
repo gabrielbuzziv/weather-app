@@ -11,7 +11,7 @@ export function TemperatureMeasureToggler() {
   return (
     <Container>
       <Label>°C</Label>
-      <Switch value={isCelsius} onChange={toggleMeasure}  />
+      <Switch value={isCelsius} onChange={toggleMeasure} />
       <Label>°F</Label>
     </Container>
   );

@@ -1,7 +1,9 @@
 import React from 'react';
 import { TouchableOpacityProps } from 'react-native';
 
-import { Container, CityName, CountryName, ButtonAdd } from './styles';
+import {
+  Container, CityName, CountryName, ButtonAdd,
+} from './styles';
 
 export type CityProps = {
   id: string;

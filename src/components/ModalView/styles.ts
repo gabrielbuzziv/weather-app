@@ -21,4 +21,4 @@ export const Bar = styled.View`
   width: 40px;
   align-self: center;
   margin-bottom: 24px;
-`
+`;

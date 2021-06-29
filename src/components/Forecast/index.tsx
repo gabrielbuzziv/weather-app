@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react';
-import { FlatListProps, View } from 'react-native';
+import { View } from 'react-native';
 import { useCities } from '../../hooks/cities';
 import { convertCelsiusToFahrenheit } from '../../lib/tempeature';
 import { WeatherIcon } from '../WeatherIcon';
 
-import { Container, Icon, Info, Temperature, DayOfWeek, Date } from './styles';
+import {
+  Container, Icon, Info, Temperature, DayOfWeek, Date,
+} from './styles';
 
 export type ForecastProps = {
   id: string;
@@ -20,9 +22,7 @@ interface Props {
 export function Forecast({ data }: Props) {
   const { measure } = useCities();
 
-  const temperature = useMemo(() => {
-    return measure === 'celsius' ? data.temp : convertCelsiusToFahrenheit(data.temp);
-  }, [measure, data]);
+  const temperature = useMemo(() => (measure === 'celsius' ? data.temp : convertCelsiusToFahrenheit(data.temp)), [measure, data]);
 
   return (
     <Container>
@@ -31,7 +31,10 @@ export function Forecast({ data }: Props) {
       </Icon>
 
       <Info>
-        <Temperature>{temperature}°</Temperature>
+        <Temperature>
+          {temperature}
+          °
+        </Temperature>
         <View>
           <DayOfWeek>{data.dayOfWeek}</DayOfWeek>
           <Date>{data.date}</Date>

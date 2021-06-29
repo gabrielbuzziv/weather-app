@@ -24,10 +24,10 @@ export const Input = styled.TextInput`
   margin-bottom: 24px;
 `;
 
-export const SearchList = styled(FlatList as new () => FlatList<CityProps>)``
+export const SearchList = styled(FlatList as new () => FlatList<CityProps>)``;
 
 export const Loading = styled(LoadingComponent)`
   flex: 1;
   align-items: center;
   justify-content: flex-start;
-`
+`;

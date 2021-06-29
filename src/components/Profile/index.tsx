@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { format, getHours } from 'date-fns';
-import { ptBR } from 'date-fns/esm/locale';
+import { format, getHours, ptBR } from 'date-fns';
 
 import { Container, Greeting, Day } from './styles';
 

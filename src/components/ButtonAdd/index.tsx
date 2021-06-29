@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Button } from './styles';
 import { theme } from '../../styles/theme';
 
-interface Props extends BorderlessButtonProps {}
+type Props = BorderlessButtonProps
 
 export function ButtonAdd({ ...rest }: Props) {
   return (

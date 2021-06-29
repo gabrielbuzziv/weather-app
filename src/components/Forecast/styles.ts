@@ -51,4 +51,3 @@ export const Date = styled.Text`
   font-size: 12px;
   font-family: ${theme.fonts.text};
 `;
-
