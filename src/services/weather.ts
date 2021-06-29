@@ -1,9 +1,23 @@
 import axios from 'axios';
 import { convertKevinToCelsius } from '../lib/tempeature';
 
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { number } from 'yargs';
+
 const { OPENWEATHER_API_URL } = process.env;
 const { OPENWEATHER_API_KEY } = process.env;
 const { OPENWEATHER_CDN_URL } = process.env;
+
+interface ForecastProps {
+  dt: number;
+  temp: {
+    day: number;
+  },
+  weather: {
+    icon: string;
+  }[]
+}
 
 export const OpenWeatherAPI = axios.create({
   baseURL: OPENWEATHER_API_URL
@@ -28,5 +42,32 @@ export const getWeatherByCity = async (cityName: string) => {
     }
   } catch (err) {
     throw new Error('Não foi possível comunicar com a API de Previsão do Tempo.')
+  }
+};
+
+export const getForecastsByCity = async (lat: number, lon: number) => {
+  try {
+    const { data } = await OpenWeatherAPI.get('/onecall', {
+      params: {
+        appid: OPENWEATHER_API_KEY,
+        lat: lat,
+        lon: lon,
+      },
+    });
+
+    const { daily } = data;
+    daily.shift();
+
+    return daily.map((day: ForecastProps) => {
+      return {
+        id: String(day.dt),
+        temp: convertKevinToCelsius(day.temp.day),
+        iconUrl: `${OPENWEATHER_CDN_URL}/${day.weather[0].icon}@2x.png`,
+        dayOfWeek: format(new Date(day.dt * 1000), 'E', { locale: ptBR }),
+        date: format(new Date(day.dt * 1000), 'dd MMMM', { locale: ptBR }),
+      };
+    })
+  } catch (err) {
+    throw new Error('Não foi possível comunicar com a API de Previsão do Tempo.');
   }
 };

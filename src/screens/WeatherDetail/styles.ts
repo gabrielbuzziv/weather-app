@@ -1,10 +1,14 @@
 import styled from 'styled-components/native';
-import { Platform } from 'react-native';
+import { Platform, FlatList } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { theme } from '../../styles/theme';
 import { Loading as LoadingComponent } from '../../components/Loading';
+
+
+import { ForecastProps } from '../../components/Forecast';
+
 
 export const Container = styled(LinearGradient)`
   flex: 1;
@@ -73,7 +77,7 @@ export const ListTitle = styled.Text`
   margin-bottom: 16px;
 `;
 
-export const ForecastList = styled.FlatList``;
+export const ForecastList = styled(FlatList as new () => FlatList<ForecastProps>)``;
 
 export const Loading = styled(LoadingComponent)`
   justify-content: center;

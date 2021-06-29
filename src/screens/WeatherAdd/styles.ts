@@ -1,4 +1,6 @@
 import styled from 'styled-components/native';
+import { FlatList } from 'react-native';
+import { CityProps } from '../../components/City';
 import { Loading as LoadingComponent } from '../../components/Loading';
 
 import { theme } from '../../styles/theme';
@@ -22,7 +24,7 @@ export const Input = styled.TextInput`
   margin-bottom: 24px;
 `;
 
-export const SearchList = styled.FlatList`
+export const SearchList = styled(FlatList as new () => FlatList<CityProps>)`
 
 `
 

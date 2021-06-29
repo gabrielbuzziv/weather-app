@@ -1,8 +1,10 @@
 import styled from 'styled-components/native';
-import { Platform } from 'react-native';
+import { Platform, FlatList } from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { theme } from '../../styles/theme';
 import { Loading } from '../../components/Loading';
+
+import { WeatherCityProps } from '../../components/WeatherCity';
 
 export const Container = styled.View`
   background: ${theme.colors.white};
@@ -18,9 +20,7 @@ export const Header = styled.View`
   margin-bottom: 40px;
 `;
 
-export const CitiesList = styled.FlatList`
- 
-`;
+export const CitiesList = styled(FlatList as new () => FlatList<WeatherCityProps>)``;
 
 export const FavoritesTitle = styled.Text`
   color: ${theme.colors.heading};
@@ -29,7 +29,7 @@ export const FavoritesTitle = styled.Text`
   margin: 0 24px 24px;
 `;
 
-export const FavoritesList = styled.FlatList`
+export const FavoritesList = styled(FlatList as new () => FlatList<WeatherCityProps>)`
   min-height: 180px;
   max-height: 180px;
   margin-bottom: 24px;

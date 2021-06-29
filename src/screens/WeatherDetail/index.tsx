@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { OpenWeatherAPI } from '../../services/weather';
-import { OPENWEATHER_API_KEY, OPENWEATHER_CDN_URL } from '../../config/weather';
+import { getForecastsByCity } from '../../services/weather';
 import { useCities } from '../../hooks/cities';
-import { convertCelsiusToFahrenheit, convertKevinToCelsius } from '../../lib/tempeature';
+import { convertCelsiusToFahrenheit } from '../../lib/tempeature';
 
 import { ButtonIcon } from '../../components/ButtonIcon';
 import { ButtonFavorite } from '../../components/ButtonFavorite';
@@ -30,6 +27,7 @@ import {
   ButtonRemoveText,
 } from './styles';
 import { theme } from '../../styles/theme';
+import { FlatListProps } from 'react-native';
 
 export function WeatherDetail() {
   const { measure, toggleFavorite, removeCity } = useCities();
@@ -63,30 +61,10 @@ export function WeatherDetail() {
 
   async function fetchForecasts() {
     try {
-      const { data } = await OpenWeatherAPI.get('/onecall', {
-        params: {
-          appid: OPENWEATHER_API_KEY,
-          lat: city.lat,
-          lon: city.lon,
-        },
-      });
-
-      const { daily } = data;
-      daily.shift();
-
-      setForecasts(
-        daily.map((day) => {
-          return {
-            id: String(day.dt),
-            temp: convertKevinToCelsius(day.temp.day),
-            iconUrl: `${OPENWEATHER_CDN_URL}/${day.weather[0].icon}@2x.png`,
-            dayOfWeek: format(new Date(day.dt * 1000), 'E', { locale: ptBR }),
-            date: format(new Date(day.dt * 1000), 'dd MMMM', { locale: ptBR }),
-          };
-        })
-      );
+      const forecastsData = await getForecastsByCity(city.lat, city.lon);
+      setForecasts(forecastsData);
     } catch (err) {
-      console.log(err);
+      setForecasts([] as ForecastProps[])
     } finally {
       setLoading(false);
     }

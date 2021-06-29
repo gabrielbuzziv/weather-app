@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View } from 'react-native';
+import { FlatListProps, View } from 'react-native';
 import { useCities } from '../../hooks/cities';
 import { convertCelsiusToFahrenheit } from '../../lib/tempeature';
 import { WeatherIcon } from '../WeatherIcon';
