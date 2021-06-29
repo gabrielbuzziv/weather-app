@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { Platform } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
@@ -14,7 +15,7 @@ export const Header = styled.View`
   align-items: flex-start;
   justify-content: space-between;
   padding: 0 24px;
-  margin-top: ${getStatusBarHeight() + 30}px;
+  margin-top: ${getStatusBarHeight() + Platform.OS === 'ios' ? 30 : 20}px;
   margin-bottom: 5px;
 `;
 

@@ -17,7 +17,7 @@ export function Profile() {
 
     if (currentHour > 6 && currentHour < 12) {
       setGreeting('Bom dia');
-    } else if (currentHour > 12 && currentHour < 18) {
+    } else if (currentHour >= 12 && currentHour < 18) {
       setGreeting('Boa tarde');
     } else {
       setGreeting('Boa noite');
